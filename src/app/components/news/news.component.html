@@ -1,0 +1,45 @@
+<p>news works!!!!!!!</p>
+
+<h1>angular模板里面绑定数据</h1>
+<p>{{ title }}</p>
+<p>{{ msg }}</p>
+<h4>{{ username }}</h4>
+<h5>{{ student }}</h5>
+<p>{{ userinfo.age }}</p>
+<!-- <app-home></app-home> -->
+
+<h1>angular模板里面绑定属性</h1>
+
+<div title="我是一个div">鼠标瞄上去看一下</div>
+
+<div [title]="student">张三</div>
+<br />
+
+<div>{{ content }}</div>
+<br />
+<span [innerHTML]="content" class="red"></span>
+<h1>angular模板里面允许做简单的运算</h1>
+1+2={{ 1 + 2 }}
+
+<ul>
+  <li *ngFor="let item of arr">
+    {{ item }}
+  </li>
+</ul>
+<ol>
+  <li *ngFor="let item of list">{{ item }}</li>
+</ol>
+
+<ul>
+  <li *ngFor="let item of userlist">{{ item.username }}----{{ item.age }}</li>
+</ul>
+<br />
+
+<ul>
+  <li *ngFor="let item of cars">
+    <h2>{{ item.cate }}</h2>
+    <ol>
+      <li *ngFor="let car of item.list">{{ car.title }}---{{ car.price }}</li>
+    </ol>
+  </li>
+</ul>
