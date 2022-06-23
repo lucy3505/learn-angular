@@ -1,9 +1,0 @@
-<p>jd-app1 works!</p>
-<input type="text" class="search" [(ngModel)]="search_text" />
-<button (click)="search()">搜索</button>
-<hr />
-<ul>
-  <li *ngFor="let item of searchList; let key = index">
-    {{ item }}-----<button (click)="deleteHistory(key)">X</button>
-  </li>
-</ul>
