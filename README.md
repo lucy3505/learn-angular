@@ -1,27 +1,70 @@
-# Angulae0614
+生命周期函数
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.1.
+组件创建，组建更新，组件销毁得时候会触发的一系列方法
 
-## Development server
+当 angular 使用构造函数新建一个组件或指令后，就会按下面的顺序在特定时刻调用这些生命周期钩子方法。
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+https://angular.cn/guide/lifecycle-hooks
 
-## Code scaffolding
+![](C:\Users\86130\Pictures\react-ssr\lifecycle-1.png)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```js
+constructor() {
+    console.log(
+      '00构造函数执行了--除了使用简单的值对局部变量进行初始化之外，什么都不应该做'
+    );
+  }
 
-## Build
+  ngOnInit(): void {
+    console.log('02ngOnInit执行了---请求数据一般放在这个里面');
+  }
+  ngDoCheck() {
+    console.log(
+      '03ngDoCheck执行了---检测，并在发生Angular无法或不愿意自己检测的变化时做出反应'
+    );
+  }
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+  ngAfterContentInit() {
+    console.log('04ngAfterContentInit执行了---当把内容投影进组件之后调用');
+  }
+  ngAfterContentChecked() {
+    console.log(
+      '05ngAfterContentChecked执行了---每次完成被投影组件的内容的变更检测之后调用'
+    );
+  }
+  ngAfterViewInit(): void {
+    console.log(
+      '06 ngAfterViewInit执行了----初始化完组件视图及其子视图之后调用（dom操作放在这个里面）'
+    );
+  }
+  ngAfterViewChecked() {
+    console.log(
+      '07ngAfterViewChecked执行了-----每次做完组件视图和子视图的变更检测之后调用'
+    );
+  }
+  ngOnDestroy() {
+    console.log('08ngOnDestroy执行了-----');
+  }
+```
 
-## Running unit tests
+## ng 触发时候执行
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+00 构造函数执行了--除了使用简单的值对局部变量进行初始化之外，什么都不应该做
+02ngOnInit 执行了---请求数据一般放在这个里面
+19 03ngDoCheck 执行了---检测，并在发生 Angular 无法或不愿意自己检测的变化时做出反应
+04ngAfterContentInit 执行了---当把内容投影进组件之后调用
+05ngAfterContentChecked 执行了---每次完成被投影组件的内容的变更检测之后调用
+06 ngAfterViewInit 执行了----初始化完组件视图及其子视图之后调用（dom 操作放在这个里面）
+07ngAfterViewChecked 执行了-----每次做完组件视图和子视图的变更检测之后调用
 
-## Running end-to-end tests
+## 数据变化的时候会触发的
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+init 只会触发一次 ，check 函数只要数据改变一般都会触发
 
-## Further help
+```
+03ngDoCheck执行了---检测，并在发生Angular无法或不愿意自己检测的变化时做出反应
+05ngAfterContentChecked执行了---每次完成被投影组件的内容的变更检测之后调用
+07ngAfterViewChecked执行了-----每次做完组件视图和子视图的变更检测之后调用
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+ngOnChanges:父组件传值的时候会触发

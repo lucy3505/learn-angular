@@ -6,32 +6,25 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { NewsComponent } from './components/news/news.component';
-import { HomeComponent } from './components/home/home.component';
+
 import { FormsModule } from '@angular/forms';
 
-//引入并且配置服务
-import { StorageService } from './services/storage.service';
-
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { LifecycleComponent } from './components/lifecycle/lifecycle.component';
 
 //@NgModule装饰器，@NgModule接收一个元数据对象，告诉angular如何编译和启动应用
 @NgModule({
   declarations: [
     //配置当前项目运行的组件
     AppComponent,
-    NewsComponent,
-    HomeComponent,
-    HeaderComponent,
-    FooterComponent,
+
+    LifecycleComponent,
   ],
   imports: [
     //配置当前模块运行依赖的其他模块
     BrowserModule,
     FormsModule,
   ],
-  providers: [StorageService], //配置项目所需要的服务
+  providers: [], //配置项目所需要的服务
   bootstrap: [AppComponent], //指定应用的主视图（称为根组件） 通过引导根AppModule来启动应用，这里一般写的是根组件
 })
 

@@ -8,8 +8,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angulae0614'; //定义属性
+  public flag = true;
 
   constructor() {
     //构造函数
+  }
+
+  changeTitle() {
+    this.title = 'change title';
+  }
+  changeFlag() {
+    this.flag = !this.flag;
   }
 }
