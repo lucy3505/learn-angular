@@ -6,38 +6,23 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { NewsComponent } from './components/news/news.component';
-import { HomeComponent } from './components/home/home.component';
 import { FormsModule } from '@angular/forms';
-import { FormComponent } from './components/form/form.component';
 import { JdApp1Component } from './components/jd-app1/jd-app1.component';
 import { TodolistComponent } from './components/todolist/todolist.component';
 
 //引入并且配置服务
 import { StorageService } from './services/storage.service';
-import { DomComponent } from './components/dom/dom.component';
 
-import { DomViewChildComponent } from './components/dom-view-child/dom-view-child.component';
-import { HeaderComponent } from './components/header/header.component';
 import { TransitionComponent } from './components/transition/transition.component';
-import { FooterComponent } from './components/footer/footer.component';
 
 //@NgModule装饰器，@NgModule接收一个元数据对象，告诉angular如何编译和启动应用
 @NgModule({
   declarations: [
     //配置当前项目运行的组件
     AppComponent,
-    NewsComponent,
-    HomeComponent,
-    FormComponent,
     JdApp1Component,
     TodolistComponent,
-    DomComponent,
-
-    DomViewChildComponent,
-     HeaderComponent,
-     TransitionComponent,
-     FooterComponent,
+    TransitionComponent,
   ],
   imports: [
     //配置当前模块运行依赖的其他模块
