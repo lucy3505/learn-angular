@@ -1,78 +1,137 @@
-#### 1。绑定数据
+## 1.事件
 
-news.component.ts 中定义数据，在 news.html 中进行绑定
+通过()写事件 vue 中是@
 
-{{}}
+方法写在业务逻辑中
 
-[]绑定属性
+```js
+<h1>事件</h1>
+<strong>{{ title }}</strong>
+
+<button (click)="run()">执行事件</button>
+<br />
+<button (click)="getData()">执行方法获取数据</button>
+<br />
+<button (click)="setData()">执行方法改变属性里面的数据</button>
+```
+
+```js
+import { Component, OnInit } from "@angular/core";
+@Component({
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
+})
+export class HomeComponent implements OnInit {
+  constructor() {
+    console.log(this.today);
+  }
+
+  ngOnInit(): void {}
+  run() {
+    console.log("这是一个自定义方法");
+  }
+  getData() {
+    alert(this.title);
+  }
+  setData() {
+    this.title = "我是改变后的title";
+  }
+}
+```
+
+## 表单事件
+
+```html
+<h1>表单事件 事件对象</h1>
+keydown:
+<input type="text" (keydown)="keyDown($event)" />
+<br />
+keyup:
+<input type="text" (keyup)="keyUp($event)" />
+```
+
+```js
+import { Component, OnInit } from "@angular/core";
+
+@Component({
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
+})
+export class HomeComponent implements OnInit {
+  constructor() {
+    console.log(this.today);
+  }
+
+  ngOnInit(): void {}
+  keyDown(e: any) {
+    if (e.keyCode == 13) {
+      console.log("按了回车");
+    } else {
+      //e.target 获取dom对象
+      console.log(e.target);
+      console.log(e.target.value);
+    }
+    console.log(e.keyCode);
+  }
+  keyUp(e: any) {
+    if (e.keyCode == 13) {
+      console.log(e.target.value);
+      console.log("按了回车");
+    } else {
+      //e.target 获取dom对象
+      console.log(e.target);
+      console.log(e.target.value);
+    }
+  }
+
+  runEvent(e: any) {
+    var dom: any = e.target;
+    dom.style.color = "red";
+  }
+}
+```
+
+## 双向数据绑定
+
+要在 angular 使用 mvvm 需要引入 FormsModule
+
+要在 app.module.ts 中引入 FormModule,猜可以使用
+
+import {FormsModule} from '@angular/forms'
+
+```html
+<h1>
+  双向数据绑定：MVVM(只针对表单) model改变会影响视图。视图改变会反过来改变model
+</h1>
+<h5>model:业务逻辑里的数据 视图：html代码</h5>
+<h5>要在angular使用mvvm需要引入FormsModule</h5>
+<input type="text" [(ngModel)]="keywords" />{{ keywords }}
+<br />
+<button (click)="changeKeywords()">改变keywords的值</button>
+<br />
+<button (click)="getKeywords()">获取keywords的值</button>
+```
 
 ```js
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-news',
-  templateUrl: './news.component.html',
-  styleUrls: ['./news.component.scss'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
-export class NewsComponent implements OnInit {
-  //声明属性的几种方式
-  // public  共有 *(默认) 可以在这个类里面使用，也可以在类外面使用
-  // protected 保护类型  只有在当前类和他的子类里面可以访问
-  // private 私有   只有在当前类猜可以访问这个属性
+export class HomeComponent implements OnInit {
 
-  //定义普通数据
-  public title = '我是新闻组件';
+  public keywords: string = '这是默认值';
 
-  msg = '我是一个新闻组件的msg'; //没写public 默认就是public
-
-  username: string = '张三';
-
-  public student: string = '我是一个学生的属性'; //推荐用这种方式
-
-  public message: any; //只定义属性  不赋值，可以在构造函数里面赋值
-
-  public content = '<h2>我是一个html标签<h2>';
-
-  //定义数据
-  public arr = ['111', '222'];
-  public userinfo: any = {
-    username: 'zhangsan',
-    age: 18,
-  };
-
-  constructor() {
-    this.message = '这是给属性赋值--（改变属性的值）';
-    console.log(this.msg); //获取属性的值
-
-    //改变属性的值
-    this.msg = '我是改变后的msg的值';
+  changeKeywords() {
+    this.keywords = '我是改变后的值';
   }
-
-  ngOnInit(): void {}
+  getKeywords() {
+    console.log(this.keywords);
+  }
 }
 
 ```
-
-news.component.html
-
-```js
-<p>{{ userinfo.age }}</p>
-<app-home></app-home>
-
-<h1>angular模板里面绑定属性</h1>
-
-<div title="我是一个div">鼠标瞄上去看一下</div>
-
-<div [title]="student">张三</div> //属性绑定
-<br />
-
-<div>{{ content }}</div>
-<br />
-<span [innerHTML]="content" class="red"></span>
-<h1>angular模板里面允许做简单的运算</h1>
-1+2={{ 1 + 2 }}
-```
-
-#### 2.数据循环 \*ngFor
-
-##### 1.\*ngFor 普通循环
