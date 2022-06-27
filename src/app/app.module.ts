@@ -4,29 +4,27 @@
 import { NgModule } from '@angular/core';
 //浏览器解析的模块
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
-
-import { LifecycleComponent } from './components/lifecycle/lifecycle.component';
-import { HomeComponent } from './components/home/home.component';
-import { RequestService } from './services/request.service';
+import { NewsComponent } from './components/news/news.component';
+import { HttpserviceService } from './services/httpservice.service';
 //@NgModule装饰器，@NgModule接收一个元数据对象，告诉angular如何编译和启动应用
 @NgModule({
   declarations: [
     //配置当前项目运行的组件
     AppComponent,
-
-    LifecycleComponent,
-    HomeComponent,
+    NewsComponent,
   ],
   imports: [
     //配置当前模块运行依赖的其他模块
     BrowserModule,
     FormsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
   ],
-  providers: [RequestService], //配置项目所需要的服务
+  providers: [HttpserviceService], //配置项目所需要的服务
   bootstrap: [AppComponent], //指定应用的主视图（称为根组件） 通过引导根AppModule来启动应用，这里一般写的是根组件
 })
 

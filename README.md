@@ -1,70 +1,80 @@
-生命周期函数
+## Angular get 请求数据
 
-组件创建，组建更新，组件销毁得时候会触发的一系列方法
+angular5.x 以后 get,post 和服务器交互使用的是 HttpClientModule 模块
 
-当 angular 使用构造函数新建一个组件或指令后，就会按下面的顺序在特定时刻调用这些生命周期钩子方法。
+1.在 app.module.ts 中引入 HttpClientModule 并注入
 
-https://angular.cn/guide/lifecycle-hooks
-
-![](C:\Users\86130\Pictures\react-ssr\lifecycle-1.png)
+//app.module.ts
 
 ```js
-constructor() {
-    console.log(
-      '00构造函数执行了--除了使用简单的值对局部变量进行初始化之外，什么都不应该做'
-    );
-  }
+import {HttpClientModule} from '@angular/common/http'
 
-  ngOnInit(): void {
-    console.log('02ngOnInit执行了---请求数据一般放在这个里面');
-  }
-  ngDoCheck() {
-    console.log(
-      '03ngDoCheck执行了---检测，并在发生Angular无法或不愿意自己检测的变化时做出反应'
-    );
-  }
+ imports: [
 
-  ngAfterContentInit() {
-    console.log('04ngAfterContentInit执行了---当把内容投影进组件之后调用');
+  //配置当前模块运行依赖的其他模块
+
+  BrowserModule,
+
+  HttpClientModule,
+
+ ],
+```
+
+//news.compoent.ts
+
+```js
+  import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+export class NewsComponent implements OnInit {
+  public list: any[] = [];
+  constructor(public http: HttpClient) {}
+
+  ngOnInit(): void {}
+  getData() {
+    // alert('get data');
+    let api = 'http://a.itying.com/api/productlist';
+    //rxjs
+    this.http.get(api).subscribe((data: any) => {
+      console.log(data);
+      this.list = data.result;
+    });
   }
-  ngAfterContentChecked() {
-    console.log(
-      '05ngAfterContentChecked执行了---每次完成被投影组件的内容的变更检测之后调用'
-    );
+    doLogin() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    var api = '120.0.0.1:4000';
+    this.http
+      .post(api, { usrname: 'zhangsan' }, httpOptions)
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
-  ngAfterViewInit(): void {
-    console.log(
-      '06 ngAfterViewInit执行了----初始化完组件视图及其子视图之后调用（dom操作放在这个里面）'
-    );
-  }
-  ngAfterViewChecked() {
-    console.log(
-      '07ngAfterViewChecked执行了-----每次做完组件视图和子视图的变更检测之后调用'
-    );
-  }
-  ngOnDestroy() {
-    console.log('08ngOnDestroy执行了-----');
+}
+
+```
+
+get 的话不需要用到 HttpHeaders,post 需要用到 HttpHeaders
+
+### jsonp
+
+1.在 app.module.ts 中引入 HttpClientModule,HttpClientJsonpModule 并注入
+
+```js
+import { HttpClientModule, HttpClientJsonpModule } from "@angular/common/http";
+```
+
+```js
+  getJsonpData() {
+    //jsonp请求  服务器必须得支持jsonp
+    //http://127.0.0.1:5000/manage/product/list?callback=xxx
+    //http://127.0.0.1:5000/manage/product/list?cb=xxx
+    var api = 'http://127.0.0.1:5000/manage/user/list';
+
+    this.http.jsonp(api, 'callback').subscribe((data) => console.log(data));
   }
 ```
 
-## ng 触发时候执行
-
-00 构造函数执行了--除了使用简单的值对局部变量进行初始化之外，什么都不应该做
-02ngOnInit 执行了---请求数据一般放在这个里面
-19 03ngDoCheck 执行了---检测，并在发生 Angular 无法或不愿意自己检测的变化时做出反应
-04ngAfterContentInit 执行了---当把内容投影进组件之后调用
-05ngAfterContentChecked 执行了---每次完成被投影组件的内容的变更检测之后调用
-06 ngAfterViewInit 执行了----初始化完组件视图及其子视图之后调用（dom 操作放在这个里面）
-07ngAfterViewChecked 执行了-----每次做完组件视图和子视图的变更检测之后调用
-
-## 数据变化的时候会触发的
-
-init 只会触发一次 ，check 函数只要数据改变一般都会触发
-
-```
-03ngDoCheck执行了---检测，并在发生Angular无法或不愿意自己检测的变化时做出反应
-05ngAfterContentChecked执行了---每次完成被投影组件的内容的变更检测之后调用
-07ngAfterViewChecked执行了-----每次做完组件视图和子视图的变更检测之后调用
-```
-
-ngOnChanges:父组件传值的时候会触发
+## angular 中使用 axios
